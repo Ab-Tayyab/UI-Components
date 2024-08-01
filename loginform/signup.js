@@ -1,15 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.getElementById('signup-form')
+
+    // password hide and unhide 
+    const showPasswordCheckbox = document.getElementById('signupPasswordCheckbox');
+    const signupPassword = document.querySelector('.signup-fPassword');
+    const signupRePassword = document.querySelector('.signup-rPassword');
+    showPasswordCheckbox.checked = false;
+    signupPassword.type = 'password';
+    signupRePassword.type = 'password'
+
+    showPasswordCheckbox.addEventListener('change', () => {
+        if (showPasswordCheckbox.checked) {
+            signupPassword.type = 'text';
+        } else {
+            signupPassword.type = 'password';
+        }
+
+        if (showPasswordCheckbox.checked) {
+            signupRePassword.type = 'text';
+        } else {
+            signupRePassword.type = 'password';
+        }
+    });
+
+    // form validation 
     signupForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const signupFirstName = document.querySelector('.signupForm-fName').value;
         const signupLastName = document.querySelector('.signupForm-lName').value;
         const signupEmail = document.querySelector('.signupForm-email').value;
-        const signupFirstPassword = document.querySelector('.signupForm-fPassword').value;
-        const signupReEnterPassword = document.querySelector('.signupForm-rPassword').value;
+        const signupFirstPassword = document.querySelector('.signup-fPassword').value;
+        const signupReEnterPassword = document.querySelector('.signup-rPassword').value;
 
-
-        // checking if field is empty then show error 
+        // if field is empty then show error 
         clearErrors();
         let valid = true;
 
@@ -21,12 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.lName-error').textContent = " Please Enter last Name.";
             valid = false;
         }
-        if (!signupEmail) {
+        if (!validateEmail(signupEmail)) {
             document.querySelector('.email-error').textContent = " Please Enter valid Email.";
             valid = false;
         }
-        if (!signupFirstPassword) {
-            document.querySelector('.fPasword-error').textContent = " Please Enter Valid Password.";
+        if (!validatePassword(signupFirstPassword)) {
+            document.querySelector('.fPassword-error').textContent = " Please Enter Valid Password.";
             valid = false;
         }
         if (!signupReEnterPassword) {
@@ -35,9 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (signupFirstPassword !== signupReEnterPassword) {
-            document.querySelector('.fPassword-error').textContent = "Password Do Not Match.";
+            document.querySelector('.rPassword-error').textContent = "Password Do Not Match.";
             valid = false;
         }
+
+        // if data valid then save in local storage 
 
         if (valid) {
             const userData = { signupFirstName, signupLastName, signupEmail, signupFirstPassword, signupReEnterPassword }
@@ -52,10 +77,19 @@ document.addEventListener('DOMContentLoaded', () => {
         function clearErrors() {
             document.querySelectorAll('.error-msg').forEach(error => error.textContent = '');
         }
+
+        // function for email validation 
+
+        function validateEmail(signupEmail) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(signupEmail);
+        }
+        // function for password validation 
+
+        function validatePassword(signupFirstPassword) {
+            const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+            return regex.test(signupFirstPassword);
+        }
     })
+
 })
-// console.log('F-Name', signupFirstName);
-// console.log('L-Name', signupLastName);
-// console.log('Email', signupEmail);
-// console.log('F-Password', signupFirstPassword);
-// console.log('R-Password', signupReEnterPassword);

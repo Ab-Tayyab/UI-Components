@@ -1,27 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('login-form');
 
+  // password hide and show function 
+
+  const showPasswordCheckbox = document.getElementById('loginPasswordChekcbox');
+  const loginPassword = document.querySelector('.login-password');
+  showPasswordCheckbox.checked = false;
+  loginPassword.type = 'password';
+
+  showPasswordCheckbox.addEventListener('change', () => {
+    if (showPasswordCheckbox.checked) {
+      loginPassword.type = 'text';
+    } else {
+      loginPassword.type = 'password';
+    }
+  });
+
+  // form validation 
+
   form.addEventListener('submit', (event) => {
-    // Prevent the default form submission
     event.preventDefault();
 
-    // Get the input values
     const email = document.querySelector('.login-email').value;
-    const password = document.querySelector('.login-password').value;
+    const password = passwordInput.value;
 
-    const retrievedData = localStorage.getItem(email)
+    // Get data from local storage
+    const retrievedData = localStorage.getItem(email);
 
-    if(retrievedData){
-      const userData = JSON.parse(retrievedData)
-      if(userData.signupFirstPassword === password){
-        alert("Login successfully.")
+    clearErrors();
+    // Validate data
+    if (retrievedData) {
+      const userData = JSON.parse(retrievedData);
+      if (userData.signupFirstPassword === password) {
+        alert("Login successfully.");
+      } else {
+        document.querySelector('.login-password-error').textContent = "Wrong Password";
       }
-      else{
-        alert("Password do not match")
-      }
+    } else {
+      document.querySelector('.login-email-error').textContent = "Email not found";
     }
-    else{
-      alert("Mail not found")
+
+    // Clear error messages
+    function clearErrors() {
+      document.querySelectorAll('.login-error-msg').forEach(error => {
+        error.textContent = "";
+      });
     }
 
     form.reset();

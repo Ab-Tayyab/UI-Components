@@ -1,7 +1,9 @@
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
 }
+
 .container {
   background-image: url('./bg.jpg');
   background-repeat: no-repeat;
@@ -69,16 +71,6 @@ body, html {
   border: 2px solid rgb(255, 255, 255);
 }
 
-.signupForm-fName,
-.signupForm-fPassword {
-  margin-bottom: 10px;
-}
-
-#loginForm div,
-#signupForm div {
-  margin-bottom: 10px;
-}
-
 #loginForm button,
 #signupForm button {
   width: 100%;
@@ -97,7 +89,23 @@ body, html {
   transition: ease-in-out .5s;
 }
 
-.error-msg{
+.error-msg,
+.login-error-msg {
   color: red;
   font-size: 12px;
+}
+
+.login-checkbox,
+.signup-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+#loginPasswordChekcbox,
+#signupPasswordCheckbox {
+  width: 18px !important;
+  height: 18px !important;
+  cursor: pointer;
 }
