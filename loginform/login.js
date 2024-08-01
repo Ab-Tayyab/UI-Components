@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
 
     const email = document.querySelector('.login-email').value;
-    const password = passwordInput.value;
+    const password = loginPassword.value;
 
     // Get data from local storage
     const retrievedData = localStorage.getItem(email);
